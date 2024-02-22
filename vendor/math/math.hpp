@@ -68,11 +68,6 @@ namespace Math {
     int64 abs(int64 x);
     float abs(float x);
     double abs(double x);
-    // Floor / Ceil
-    float floor(float x);
-    double floor(double x);
-    float ceil(float x);
-    double ceil(double x);
     // Sqrt
     float sqrt(float x);
     double sqrt(double x);
