@@ -12,20 +12,20 @@ endif
 
 ifeq ($(config),debug)
   RESCOMP = windres
-  TARGETDIR = ../bin/debug
-  TARGET = $(TARGETDIR)/example
-  OBJDIR = ../bin/obj/debug
-  DEFINES += -DWINDOWAPI_GLFW -DCONFIG_DEBUG
-  INCLUDES += -I../example -I../src -I../vendor
+  TARGETDIR = ../lib/debug
+  TARGET = $(TARGETDIR)/libmath.a
+  OBJDIR = ../bin/debug
+  DEFINES += -DCONFIG_DEBUG
+  INCLUDES += -I../src
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -g
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -g -std=c++20
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += ../lib/debug/libpixelpaw.a -lglfw -lGLEW -lGL -lGLU -lmath
-  LDDEPS += ../lib/debug/libpixelpaw.a
-  ALL_LDFLAGS += $(LDFLAGS) -L../bin/debug -L../vendor/math/lib/debug
-  LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
+  LIBS +=
+  LDDEPS +=
+  ALL_LDFLAGS += $(LDFLAGS)
+  LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
@@ -39,20 +39,20 @@ endif
 
 ifeq ($(config),fast)
   RESCOMP = windres
-  TARGETDIR = ../bin/fast
-  TARGET = $(TARGETDIR)/example
-  OBJDIR = ../bin/obj/fast
-  DEFINES += -DWINDOWAPI_GLFW -DCONFIG_FAST
-  INCLUDES += -I../example -I../src -I../vendor
+  TARGETDIR = ../lib/fast
+  TARGET = $(TARGETDIR)/libmath.a
+  OBJDIR = ../bin/fast
+  DEFINES += -DCONFIG_FAST
+  INCLUDES += -I../src
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O2
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -O2 -std=c++20
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += ../lib/fast/libpixelpaw.a -lglfw -lGLEW -lGL -lGLU -lmath
-  LDDEPS += ../lib/fast/libpixelpaw.a
-  ALL_LDFLAGS += $(LDFLAGS) -L../bin/fast -L../vendor/math/lib/fast -s -Ofast
-  LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
+  LIBS +=
+  LDDEPS +=
+  ALL_LDFLAGS += $(LDFLAGS) -s -Ofast
+  LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
@@ -66,20 +66,20 @@ endif
 
 ifeq ($(config),dist)
   RESCOMP = windres
-  TARGETDIR = ../bin/dist
-  TARGET = $(TARGETDIR)/example
-  OBJDIR = ../bin/obj/dist
-  DEFINES += -DWINDOWAPI_GLFW -DCONFIG_DIST
-  INCLUDES += -I../example -I../src -I../vendor
+  TARGETDIR = ../lib/dist
+  TARGET = $(TARGETDIR)/libmath.a
+  OBJDIR = ../bin/dist
+  DEFINES += -DCONFIG_DIST
+  INCLUDES += -I../src
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O2
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -O2 -std=c++20
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += ../lib/dist/libpixelpaw.a -lglfw -lGLEW -lGL -lGLU -lmath
-  LDDEPS += ../lib/dist/libpixelpaw.a
-  ALL_LDFLAGS += $(LDFLAGS) -L../bin/dist -L../vendor/math/lib/dist -s -Ofast
-  LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
+  LIBS +=
+  LDDEPS +=
+  ALL_LDFLAGS += $(LDFLAGS) -s -Ofast
+  LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
@@ -92,7 +92,8 @@ all: prebuild prelink $(TARGET)
 endif
 
 OBJECTS := \
-	$(OBJDIR)/main.o \
+	$(OBJDIR)/arithmetic.o \
+	$(OBJDIR)/precompile.o \
 
 RESOURCES := \
 
@@ -104,7 +105,7 @@ ifeq (.exe,$(findstring .exe,$(ComSpec)))
 endif
 
 $(TARGET): $(GCH) ${CUSTOMFILES} $(OBJECTS) $(LDDEPS) $(RESOURCES) | $(TARGETDIR)
-	@echo Linking example
+	@echo Linking math
 	$(SILENT) $(LINKCMD)
 	$(POSTBUILDCMDS)
 
@@ -127,7 +128,7 @@ else
 endif
 
 clean:
-	@echo Cleaning example
+	@echo Cleaning math
 ifeq (posix,$(SHELLTYPE))
 	$(SILENT) rm -f  $(TARGET)
 	$(SILENT) rm -rf $(OBJDIR)
@@ -151,7 +152,10 @@ else
 $(OBJECTS): | $(OBJDIR)
 endif
 
-$(OBJDIR)/main.o: ../example/main.cpp
+$(OBJDIR)/arithmetic.o: ../src/arithmetic.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/precompile.o: ../src/precompile.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 

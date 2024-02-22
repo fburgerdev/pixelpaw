@@ -212,7 +212,7 @@ namespace PixelPaw {
     Math::Vec2i Window_GLFW::getCursorPos() const {
         double x_pos, y_pos;
         glfwGetCursorPos((GLFWwindow*)m_Handle, &x_pos, &y_pos);
-        return Math::Vec2i(Math::floor(x_pos), Math::floor(y_pos));
+        return Math::Vec2i(int32(x_pos), int32(y_pos));
     }
     void Window_GLFW::setCursorPos(const Math::Vec2i& pos) {
         glfwSetCursorPos((GLFWwindow*)m_Handle, (double)pos.x, (double)pos.y);

@@ -1,0 +1,3 @@
+[submodule "vendor/math"]
+	path = vendor/math
+	url = https://github.com/fburgerdev/math

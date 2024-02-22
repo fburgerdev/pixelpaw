@@ -1,7 +1,7 @@
 #pragma once
 #include "event.hpp"
 #include "glfwkeylayout.hpp"
-#include "math/math.hpp"
+#include "math/include/math.hpp"
 
 namespace PixelPaw {
     // Key-Layout

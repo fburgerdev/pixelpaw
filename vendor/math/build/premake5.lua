@@ -1,11 +1,11 @@
 -- premake5.lua
 ROOT = ".."
 -- workspace
-workspace "pixelpaw"
+workspace "math"
    -- configuration
    configurations { "debug", "fast", "dist" }
 -- library
-project "pixelpaw"
+project "math"
    -- staticlib
    kind "StaticLib"
    -- cpp
@@ -18,10 +18,7 @@ project "pixelpaw"
    }
    includedirs {
       ROOT .. "/src",
-      ROOT .. "/vendor",
    }
-   -- define
-   defines { "WINDOWAPI_GLFW" }
    -- object
    objdir(ROOT .. "/bin")
    -- debugger
@@ -70,13 +67,7 @@ project "example"
    includedirs {
       ROOT .. "/example",
       ROOT .. "/src",
-      ROOT .. "/vendor",
    }
-   -- link
-   links { "pixelpaw", "glfw", "GLEW", "GL", "GLU"}
-   links { "math" }
-   -- define
-   defines { "WINDOWAPI_GLFW" }
    -- object
    objdir(ROOT .. "/bin/obj")
    -- debug
@@ -86,8 +77,6 @@ project "example"
       -- symbols
       symbols "On"
       defines { "CONFIG_DEBUG" }
-      -- link
-      libdirs { ROOT .. "/bin/debug", ROOT .. "/vendor/math/lib/debug" }
       -- target
       targetdir(ROOT .. "/bin/debug")
    filter "configurations:fast"
@@ -97,8 +86,6 @@ project "example"
       defines { "CONFIG_FAST" }
       -- option
       linkoptions { "-Ofast" }
-      -- link
-      libdirs { ROOT .. "/bin/fast", ROOT .. "/vendor/math/lib/fast" }
       -- target
       targetdir(ROOT .. "/bin/fast")
    filter "configurations:dist"
@@ -107,8 +94,6 @@ project "example"
       -- define
       defines { "CONFIG_DIST" }
       -- option
-      linkoptions { "-Ofast" }
-      -- link
-      libdirs { ROOT .. "/bin/dist", ROOT .. "/vendor/math/lib/dist" }
+      linkoptions { "-static", "-Ofast" }
       -- target
       targetdir(ROOT .. "/bin/dist")

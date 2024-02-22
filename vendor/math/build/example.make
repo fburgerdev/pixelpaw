@@ -15,16 +15,16 @@ ifeq ($(config),debug)
   TARGETDIR = ../bin/debug
   TARGET = $(TARGETDIR)/example
   OBJDIR = ../bin/obj/debug
-  DEFINES += -DWINDOWAPI_GLFW -DCONFIG_DEBUG
-  INCLUDES += -I../example -I../src -I../vendor
+  DEFINES += -DCONFIG_DEBUG
+  INCLUDES += -I../example -I../src
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -g
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -g -std=c++20
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += ../lib/debug/libpixelpaw.a -lglfw -lGLEW -lGL -lGLU -lmath
-  LDDEPS += ../lib/debug/libpixelpaw.a
-  ALL_LDFLAGS += $(LDFLAGS) -L../bin/debug -L../vendor/math/lib/debug
+  LIBS +=
+  LDDEPS +=
+  ALL_LDFLAGS += $(LDFLAGS)
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -42,16 +42,16 @@ ifeq ($(config),fast)
   TARGETDIR = ../bin/fast
   TARGET = $(TARGETDIR)/example
   OBJDIR = ../bin/obj/fast
-  DEFINES += -DWINDOWAPI_GLFW -DCONFIG_FAST
-  INCLUDES += -I../example -I../src -I../vendor
+  DEFINES += -DCONFIG_FAST
+  INCLUDES += -I../example -I../src
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O2
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -O2 -std=c++20
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += ../lib/fast/libpixelpaw.a -lglfw -lGLEW -lGL -lGLU -lmath
-  LDDEPS += ../lib/fast/libpixelpaw.a
-  ALL_LDFLAGS += $(LDFLAGS) -L../bin/fast -L../vendor/math/lib/fast -s -Ofast
+  LIBS +=
+  LDDEPS +=
+  ALL_LDFLAGS += $(LDFLAGS) -s -Ofast
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -69,16 +69,16 @@ ifeq ($(config),dist)
   TARGETDIR = ../bin/dist
   TARGET = $(TARGETDIR)/example
   OBJDIR = ../bin/obj/dist
-  DEFINES += -DWINDOWAPI_GLFW -DCONFIG_DIST
-  INCLUDES += -I../example -I../src -I../vendor
+  DEFINES += -DCONFIG_DIST
+  INCLUDES += -I../example -I../src
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O2
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -O2 -std=c++20
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += ../lib/dist/libpixelpaw.a -lglfw -lGLEW -lGL -lGLU -lmath
-  LDDEPS += ../lib/dist/libpixelpaw.a
-  ALL_LDFLAGS += $(LDFLAGS) -L../bin/dist -L../vendor/math/lib/dist -s -Ofast
+  LIBS +=
+  LDDEPS +=
+  ALL_LDFLAGS += $(LDFLAGS) -s -static -Ofast
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
