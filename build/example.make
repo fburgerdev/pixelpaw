@@ -22,9 +22,9 @@ ifeq ($(config),debug)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -g
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -g -std=c++20
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += ../lib/debug/libpixelpaw.a -lglfw -lGLEW -lGL -lGLU -lmath
+  LIBS += ../lib/debug/libpixelpaw.a -lglfw -lGLEW -lGL -lGLU
   LDDEPS += ../lib/debug/libpixelpaw.a
-  ALL_LDFLAGS += $(LDFLAGS) -L../bin/debug -L../vendor/math/lib/debug
+  ALL_LDFLAGS += $(LDFLAGS) -L../bin/debug
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -49,9 +49,9 @@ ifeq ($(config),fast)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O2
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -O2 -std=c++20
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += ../lib/fast/libpixelpaw.a -lglfw -lGLEW -lGL -lGLU -lmath
+  LIBS += ../lib/fast/libpixelpaw.a -lglfw -lGLEW -lGL -lGLU
   LDDEPS += ../lib/fast/libpixelpaw.a
-  ALL_LDFLAGS += $(LDFLAGS) -L../bin/fast -L../vendor/math/lib/fast -s -Ofast
+  ALL_LDFLAGS += $(LDFLAGS) -L../bin/fast -s -Ofast
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -76,9 +76,9 @@ ifeq ($(config),dist)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O2
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -O2 -std=c++20
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += ../lib/dist/libpixelpaw.a -lglfw -lGLEW -lGL -lGLU -lmath
+  LIBS += ../lib/dist/libpixelpaw.a -lglfw -lGLEW -lGL -lGLU
   LDDEPS += ../lib/dist/libpixelpaw.a
-  ALL_LDFLAGS += $(LDFLAGS) -L../bin/dist -L../vendor/math/lib/dist -s -Ofast
+  ALL_LDFLAGS += $(LDFLAGS) -L../bin/dist -s -Ofast
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef

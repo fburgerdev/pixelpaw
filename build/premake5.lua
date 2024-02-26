@@ -74,7 +74,6 @@ project "example"
    }
    -- link
    links { "pixelpaw", "glfw", "GLEW", "GL", "GLU"}
-   links { "math" }
    -- define
    defines { "WINDOWAPI_GLFW" }
    -- object
@@ -87,7 +86,7 @@ project "example"
       symbols "On"
       defines { "CONFIG_DEBUG" }
       -- link
-      libdirs { ROOT .. "/bin/debug", ROOT .. "/vendor/math/lib/debug" }
+      libdirs { ROOT .. "/bin/debug" }
       -- target
       targetdir(ROOT .. "/bin/debug")
    filter "configurations:fast"
@@ -98,7 +97,7 @@ project "example"
       -- option
       linkoptions { "-Ofast" }
       -- link
-      libdirs { ROOT .. "/bin/fast", ROOT .. "/vendor/math/lib/fast" }
+      libdirs { ROOT .. "/bin/fast" }
       -- target
       targetdir(ROOT .. "/bin/fast")
    filter "configurations:dist"
@@ -109,6 +108,6 @@ project "example"
       -- option
       linkoptions { "-Ofast" }
       -- link
-      libdirs { ROOT .. "/bin/dist", ROOT .. "/vendor/math/lib/dist" }
+      libdirs { ROOT .. "/bin/dist" }
       -- target
       targetdir(ROOT .. "/bin/dist")
