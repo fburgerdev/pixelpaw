@@ -5,13 +5,19 @@ C++ library for graphical windows
 - window class, utility functions and event callbacks
 - mouse, keyboard and window-state events
 
+# System-Support
+- linux: supported, tested, prebuild binaries
+- others: not-supported
+
 # Dependancies
 - OPENGL (Mostly Included)
 - GLFW
 - GLEW
 
-## Linux
-$ sudo apt install libglfw3-dev libglew-dev
+## Resolve on Linux
+``` console
+sudo apt install libglfw3-dev libglew-dev
+```
 
 # Use Library
 - add "PATH_TO_REPO/include" to your include directories
@@ -22,7 +28,3 @@ $ sudo apt install libglfw3-dev libglew-dev
 - add libraries "pixelpaw", "glfw", "GLEW", "GLU, "GL"
 
 ## Or Build Yourself
-
-# System-Support
-- linux: supported, tested, prebuild binaries
-- others: not-supported
