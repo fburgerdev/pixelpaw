@@ -10,7 +10,7 @@ C++ library for graphical windows
 - others: not-supported
 
 # Dependancies
-- OPENGL (Mostly Included)
+- OpenGL (Mostly Included)
 - GLFW
 - GLEW
 
