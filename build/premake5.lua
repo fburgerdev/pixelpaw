@@ -2,6 +2,8 @@
 ROOT = ".."
 -- workspace
 workspace "pixelpaw"
+   -- startproject
+   startproject "example"
    -- configuration
    configurations { "debug", "fast", "dist" }
 -- library
