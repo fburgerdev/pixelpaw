@@ -1,9 +1,10 @@
+#if defined(WINDOWAPI_GLFW) or true
 #include "glfwwindow.hpp"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <mutex>
 
-namespace PixelPaw {
+namespace Wndw {
     // Mutex
     static std::mutex s_WindowCreation;
     static std::mutex s_WindowContext;
@@ -296,3 +297,4 @@ namespace PixelPaw {
         glfwSwapBuffers((GLFWwindow*)m_Handle);
     }
 }
+#endif

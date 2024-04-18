@@ -2,16 +2,17 @@
 #include <memory> // address, int, uint
 #include <string> // string
 #include <string_view> // string_view
+#include <array> // Array
 #include <vector> // List
 #include <stack> // Stack
 #include <queue> // Queue
+#include <deque> // Deque
 #include <unordered_set> // Set 
-#include <set> // OrderedSet
-#include <unordered_map> // Map
-#include <map> // OrderedMap
-#include <functional> // function
+#include <map> // Map
+#include <set> // HashSet
+#include <unordered_map> // HashMap
 
-namespace PixelPaw {
+namespace Wndw {
     // Types
     // Types :: address
     using address = std::size_t;
@@ -29,7 +30,10 @@ namespace PixelPaw {
     using string = std::string;
     // Types :: string_view
     using string_view = std::string_view;
-    // Structures
+    // Container
+    // Container :: Sequence
+    template<typename T, address N>
+    using Array = std::array<T, N>;
     template<typename T>
     using List = std::vector<T>;
     template<typename T>
@@ -37,16 +41,15 @@ namespace PixelPaw {
     template<typename T>
     using Queue = std::queue<T>;
     template<typename T>
-    using Set = std::unordered_set<T>;
+    using Deque = std::deque<T>;
+    // Container :: Tree
     template<typename T>
-    using OrderedSet = std::set<T>;
+    using Set = std::set<T>;
     template<typename Key, typename Value>
-    using Map = std::unordered_map<Key, Value>;
+    using Map = std::map<Key, Value>;
+    // Container :: Hash
+    template<typename T>
+    using HashSet = std::unordered_set<T>;
     template<typename Key, typename Value>
-    using OrderedMap = std::map<Key, Value>;
-    // Move-Semantic
-    using std::move;
-    using std::forward;
-    // Function
-    using std::function;
+    using HashMap = std::unordered_map<Key, Value>;
 }

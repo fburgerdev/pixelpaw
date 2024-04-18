@@ -1,6 +1,6 @@
 #pragma once
 
-namespace PixelPaw {
+namespace Wndw {
     // KeyCode
     #include "glfwkeycodes.hpp"
     // US-Layout

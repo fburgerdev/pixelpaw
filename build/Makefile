@@ -9,52 +9,52 @@ ifndef verbose
 endif
 
 ifeq ($(config),debug)
-  pixelpaw_config = debug
-  example_config = debug
+  window_config = debug
+  test_config = debug
 endif
-ifeq ($(config),fast)
-  pixelpaw_config = fast
-  example_config = fast
+ifeq ($(config),release)
+  window_config = release
+  test_config = release
 endif
 ifeq ($(config),dist)
-  pixelpaw_config = dist
-  example_config = dist
+  window_config = dist
+  test_config = dist
 endif
 
-PROJECTS := pixelpaw example
+PROJECTS := window test
 
 .PHONY: all clean help $(PROJECTS) 
 
 all: $(PROJECTS)
 
-pixelpaw:
-ifneq (,$(pixelpaw_config))
-	@echo "==== Building pixelpaw ($(pixelpaw_config)) ===="
-	@${MAKE} --no-print-directory -C . -f pixelpaw.make config=$(pixelpaw_config)
+window:
+ifneq (,$(window_config))
+	@echo "==== Building window ($(window_config)) ===="
+	@${MAKE} --no-print-directory -C . -f window.make config=$(window_config)
 endif
 
-example: pixelpaw
-ifneq (,$(example_config))
-	@echo "==== Building example ($(example_config)) ===="
-	@${MAKE} --no-print-directory -C . -f example.make config=$(example_config)
+test: window
+ifneq (,$(test_config))
+	@echo "==== Building test ($(test_config)) ===="
+	@${MAKE} --no-print-directory -C . -f test.make config=$(test_config)
 endif
 
 clean:
-	@${MAKE} --no-print-directory -C . -f pixelpaw.make clean
-	@${MAKE} --no-print-directory -C . -f example.make clean
+	@${MAKE} --no-print-directory -C . -f window.make clean
+	@${MAKE} --no-print-directory -C . -f test.make clean
 
 help:
 	@echo "Usage: make [config=name] [target]"
 	@echo ""
 	@echo "CONFIGURATIONS:"
 	@echo "  debug"
-	@echo "  fast"
+	@echo "  release"
 	@echo "  dist"
 	@echo ""
 	@echo "TARGETS:"
 	@echo "   all (default)"
 	@echo "   clean"
-	@echo "   pixelpaw"
-	@echo "   example"
+	@echo "   window"
+	@echo "   test"
 	@echo ""
 	@echo "For more information, see https://github.com/premake/premake-core/wiki"

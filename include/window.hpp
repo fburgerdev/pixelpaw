@@ -1,18 +1,20 @@
 #pragma once
 // #include "common.hpp"
+#pragma once
 #include <memory> // address, int, uint
 #include <string> // string
 #include <string_view> // string_view
+#include <array> // Array
 #include <vector> // List
 #include <stack> // Stack
 #include <queue> // Queue
+#include <deque> // Deque
 #include <unordered_set> // Set 
-#include <set> // OrderedSet
-#include <unordered_map> // Map
-#include <map> // OrderedMap
-#include <functional> // function
+#include <map> // Map
+#include <set> // HashSet
+#include <unordered_map> // HashMap
 
-namespace PixelPaw {
+namespace Wndw {
     // Types
     // Types :: address
     using address = std::size_t;
@@ -30,7 +32,10 @@ namespace PixelPaw {
     using string = std::string;
     // Types :: string_view
     using string_view = std::string_view;
-    // Structures
+    // Container
+    // Container :: Sequence
+    template<typename T, address N>
+    using Array = std::array<T, N>;
     template<typename T>
     using List = std::vector<T>;
     template<typename T>
@@ -38,23 +43,22 @@ namespace PixelPaw {
     template<typename T>
     using Queue = std::queue<T>;
     template<typename T>
-    using Set = std::unordered_set<T>;
+    using Deque = std::deque<T>;
+    // Container :: Tree
     template<typename T>
-    using OrderedSet = std::set<T>;
+    using Set = std::set<T>;
     template<typename Key, typename Value>
-    using Map = std::unordered_map<Key, Value>;
+    using Map = std::map<Key, Value>;
+    // Container :: Hash
+    template<typename T>
+    using HashSet = std::unordered_set<T>;
     template<typename Key, typename Value>
-    using OrderedMap = std::map<Key, Value>;
-    // Move-Semantic
-    using std::move;
-    using std::forward;
-    // Function
-    using std::function;
+    using HashMap = std::unordered_map<Key, Value>;
 }
 // #include "event.hpp"
-#if defined(WINDOWAPI_GLFW)
+#if defined(WINDOWAPI_GLFW) or true
 // #include "glfwkeylayout.hpp"
-namespace PixelPaw {
+namespace Wndw {
     // KeyCode
     // #include "glfwkeycodes.hpp"
     enum class KeyCode_GLFW {
@@ -202,7 +206,7 @@ namespace PixelPaw {
     KeyCode_GLFW toGermanLayout(KeyCode_GLFW code);
 }
 #endif
-namespace PixelPaw {
+namespace Wndw {
     // Mouse
     // Mouse :: Button
     enum class MouseButton {
@@ -227,11 +231,11 @@ namespace PixelPaw {
         Press, Release, Repeat
     };
     // Key :: Code
-    #if defined(WINDOWAPI_GLFW)
+    #if defined(WINDOWAPI_GLFW) or true
     using KeyCode = KeyCode_GLFW;
     #endif
 }
-#if defined(WINDOWAPI_GLFW)
+#if defined(WINDOWAPI_GLFW) or true
 // #include "constants.hpp"
 #include <memory> // address, int, uint
 #include <string> // string
@@ -763,7 +767,7 @@ namespace Math {
 }
 #include <functional>
 
-namespace PixelPaw {
+namespace Wndw {
     // Key-Layout
     enum class KeyboardLayout {
         US, GER

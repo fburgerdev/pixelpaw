@@ -1,32 +1,35 @@
 -- premake5.lua
 ROOT = ".."
+PRJ_NAME = "window" --[[ MODIFY ]]
+DEFAULT_TEST = "test" --[[ MODIFY ]]
 -- workspace
-workspace "pixelpaw"
+workspace(PRJ_NAME)
+   -- build options
+   configurations { "debug", "release", "dist" }
    -- startproject
-   startproject "example"
-   -- configuration
-   configurations { "debug", "fast", "dist" }
--- library
-project "pixelpaw"
-   -- staticlib
-   kind "StaticLib"
+   startproject(DEFAULT_TEST)
+   -- console
+   kind "ConsoleApp"
    -- cpp
    language "C++"
-   cppdialect "C++20"
-   -- file
-   files {
-      ROOT .. "/src/**.hpp",
-      ROOT .. "/src/**.cpp",
-   }
+   cppdialect "C++Latest"
+   -- includedirs
    includedirs {
+      ROOT,
       ROOT .. "/src",
       ROOT .. "/vendor",
+      ROOT .. "/vendor/*",
    }
-   -- define
-   defines { "WINDOWAPI_GLFW" }
-   -- object
-   objdir(ROOT .. "/bin")
-   -- debugger
+   -- files
+   files {
+      ROOT .. "/vendor/*/src/**",
+   }
+   -- bin
+   -- bin :: targetdir
+   targetdir(ROOT .. "/bin/%{cfg.buildcfg}/%{prj.name}")
+   -- bin :: objdir
+   objdir(ROOT .. "/bin/obj/%{cfg.system}_%{cfg.buildcfg}/%{prj.name}")
+   -- debug
    debugger "GDB"
    -- config
    -- config :: debug
@@ -35,81 +38,45 @@ project "pixelpaw"
       symbols "On"
       -- define
       defines { "CONFIG_DEBUG" }
-      -- target
-      targetdir(ROOT .. "/lib/debug")
    -- config :: fast
-   filter "configurations:fast"
+   filter "configurations:release"
       -- optimize
       optimize "On"
       -- define
-      defines { "CONFIG_FAST" }
-      -- option
+      defines { "CONFIG_RELEASE" }
+      -- linkoptions
       linkoptions{ "-Ofast" }
-      -- target
-      targetdir(ROOT .. "/lib/fast")
    -- config :: dist
    filter "configurations:dist"
       -- optimize
       optimize "On"
       -- define
       defines { "CONFIG_DIST" }
-      -- option
+      -- linkoptions
       linkoptions { "-Ofast" }
-      -- target
-      targetdir(ROOT .. "/lib/dist")
--- example
-project "example"
-   -- console
-   kind "ConsoleApp"
-   -- cpp
-   language "C++"
-   cppdialect "C++20"
-   -- file
+-- project
+-- project :: lib
+project(PRJ_NAME)
+   -- staticlib
+   kind "StaticLib"
+   -- files
    files {
-      ROOT .. "/example/**.hpp",
-      ROOT .. "/example/**.cpp",
+      ROOT .. "/src/**",
    }
-   includedirs {
-      ROOT .. "/example",
-      ROOT .. "/src",
-      ROOT .. "/vendor",
+   -- obj
+   objdir(ROOT .. "/bin/obj/%{cfg.system}_%{cfg.buildcfg}")
+   -- targetdir
+   targetdir(ROOT .. "/lib/%{cfg.buildcfg}")
+-- project :: tests
+-- project :: tests :: test
+project "test"
+   -- files
+   files {
+      ROOT .. "/tests/%{prj.name}.cpp",
+      --[[ INSERT ADDITIONAL FILES HERE ]]
    }
    -- link
-   links { "pixelpaw", "glfw", "GLEW", "GL", "GLU"}
-   -- define
-   defines { "WINDOWAPI_GLFW" }
-   -- object
-   objdir(ROOT .. "/bin/obj")
-   -- debug
-   debugger "GDB"
-   -- config
-   filter "configurations:debug"
-      -- symbols
-      symbols "On"
-      defines { "CONFIG_DEBUG" }
-      -- link
-      libdirs { ROOT .. "/bin/debug" }
-      -- target
-      targetdir(ROOT .. "/bin/debug")
-   filter "configurations:fast"
-      -- optimize
-      optimize "On"
-      -- define
-      defines { "CONFIG_FAST" }
-      -- option
-      linkoptions { "-Ofast" }
-      -- link
-      libdirs { ROOT .. "/bin/fast" }
-      -- target
-      targetdir(ROOT .. "/bin/fast")
-   filter "configurations:dist"
-      -- optimize
-      optimize "On"
-      -- define
-      defines { "CONFIG_DIST" }
-      -- option
-      linkoptions { "-Ofast" }
-      -- link
-      libdirs { ROOT .. "/bin/dist" }
-      -- target
-      targetdir(ROOT .. "/bin/dist")
+   links { PRJ_NAME, "glfw", "GLEW", "GL", "GLU", --[[ INSERT ADDITIONAL LINKS HERE ]] }
+   -- defines
+   defines { --[[ INSERT ADDITIONAL DEFINES HERE ]] }
+--[[ INSERT ADDITIONAL TESTS HERE ]]

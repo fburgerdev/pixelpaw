@@ -2,8 +2,9 @@
 #include "event.hpp"
 #include "glfwkeylayout.hpp"
 #include "math/include/math.hpp"
+#include <functional>
 
-namespace PixelPaw {
+namespace Wndw {
     // Key-Layout
     enum class KeyboardLayout {
         US, GER

@@ -12,20 +12,20 @@ endif
 
 ifeq ($(config),debug)
   RESCOMP = windres
-  TARGETDIR = ../lib/debug
-  TARGET = $(TARGETDIR)/libpixelpaw.a
-  OBJDIR = ../bin/debug
-  DEFINES += -DWINDOWAPI_GLFW -DCONFIG_DEBUG
-  INCLUDES += -I../src -I../vendor
+  TARGETDIR = ../bin/debug/test
+  TARGET = $(TARGETDIR)/test
+  OBJDIR = ../bin/obj/linux_debug/test
+  DEFINES += -DCONFIG_DEBUG
+  INCLUDES += -I.. -I../src -I../vendor -I../vendor/math
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -g
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -g -std=c++20
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS +=
-  LDDEPS +=
+  LIBS += ../lib/debug/libwindow.a -lglfw -lGLEW -lGL -lGLU
+  LDDEPS += ../lib/debug/libwindow.a
   ALL_LDFLAGS += $(LDFLAGS)
-  LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
+  LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
@@ -37,22 +37,22 @@ all: prebuild prelink $(TARGET)
 
 endif
 
-ifeq ($(config),fast)
+ifeq ($(config),release)
   RESCOMP = windres
-  TARGETDIR = ../lib/fast
-  TARGET = $(TARGETDIR)/libpixelpaw.a
-  OBJDIR = ../bin/fast
-  DEFINES += -DWINDOWAPI_GLFW -DCONFIG_FAST
-  INCLUDES += -I../src -I../vendor
+  TARGETDIR = ../bin/release/test
+  TARGET = $(TARGETDIR)/test
+  OBJDIR = ../bin/obj/linux_release/test
+  DEFINES += -DCONFIG_RELEASE
+  INCLUDES += -I.. -I../src -I../vendor -I../vendor/math
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O2
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -O2 -std=c++20
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS +=
-  LDDEPS +=
+  LIBS += ../lib/release/libwindow.a -lglfw -lGLEW -lGL -lGLU
+  LDDEPS += ../lib/release/libwindow.a
   ALL_LDFLAGS += $(LDFLAGS) -s -Ofast
-  LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
+  LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
@@ -66,20 +66,20 @@ endif
 
 ifeq ($(config),dist)
   RESCOMP = windres
-  TARGETDIR = ../lib/dist
-  TARGET = $(TARGETDIR)/libpixelpaw.a
-  OBJDIR = ../bin/dist
-  DEFINES += -DWINDOWAPI_GLFW -DCONFIG_DIST
-  INCLUDES += -I../src -I../vendor
+  TARGETDIR = ../bin/dist/test
+  TARGET = $(TARGETDIR)/test
+  OBJDIR = ../bin/obj/linux_dist/test
+  DEFINES += -DCONFIG_DIST
+  INCLUDES += -I.. -I../src -I../vendor -I../vendor/math
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O2
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -O2 -std=c++20
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS +=
-  LDDEPS +=
+  LIBS += ../lib/dist/libwindow.a -lglfw -lGLEW -lGL -lGLU
+  LDDEPS += ../lib/dist/libwindow.a
   ALL_LDFLAGS += $(LDFLAGS) -s -Ofast
-  LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
+  LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
@@ -92,8 +92,9 @@ all: prebuild prelink $(TARGET)
 endif
 
 OBJECTS := \
-	$(OBJDIR)/glfwkeylayout.o \
-	$(OBJDIR)/glfwwindow.o \
+	$(OBJDIR)/test.o \
+	$(OBJDIR)/arithmetic.o \
+	$(OBJDIR)/precompile.o \
 
 RESOURCES := \
 
@@ -105,7 +106,7 @@ ifeq (.exe,$(findstring .exe,$(ComSpec)))
 endif
 
 $(TARGET): $(GCH) ${CUSTOMFILES} $(OBJECTS) $(LDDEPS) $(RESOURCES) | $(TARGETDIR)
-	@echo Linking pixelpaw
+	@echo Linking test
 	$(SILENT) $(LINKCMD)
 	$(POSTBUILDCMDS)
 
@@ -128,7 +129,7 @@ else
 endif
 
 clean:
-	@echo Cleaning pixelpaw
+	@echo Cleaning test
 ifeq (posix,$(SHELLTYPE))
 	$(SILENT) rm -f  $(TARGET)
 	$(SILENT) rm -rf $(OBJDIR)
@@ -152,10 +153,13 @@ else
 $(OBJECTS): | $(OBJDIR)
 endif
 
-$(OBJDIR)/glfwkeylayout.o: ../src/glfwkeylayout.cpp
+$(OBJDIR)/test.o: ../tests/test.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/glfwwindow.o: ../src/glfwwindow.cpp
+$(OBJDIR)/arithmetic.o: ../vendor/math/src/arithmetic.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/precompile.o: ../vendor/math/src/precompile.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 

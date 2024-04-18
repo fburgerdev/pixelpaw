@@ -1,10 +1,10 @@
 #pragma once
 #include "common.hpp"
-#if defined(WINDOWAPI_GLFW)
+#if defined(WINDOWAPI_GLFW) or true
 #include "glfwkeylayout.hpp"
 #endif
 
-namespace PixelPaw {
+namespace Wndw {
     // Mouse
     // Mouse :: Button
     enum class MouseButton {

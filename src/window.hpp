@@ -1,8 +1,8 @@
 #pragma once
-#if defined(WINDOWAPI_GLFW)
+#if defined(WINDOWAPI_GLFW) or true
 #include "glfwwindow.hpp"
 #include "glfwkeylayout.hpp"
-namespace PixelPaw {
+namespace Wndw {
     using Window = Window_GLFW;
 }
 #elif

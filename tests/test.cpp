@@ -1,7 +1,7 @@
-#include "window.hpp"
+#include "include/window.hpp"
 #include <iostream>
 
-using namespace PixelPaw;
+using namespace Wndw;
 int main() {
     // Window
     Window window("Untitled Window", 1080, 720);

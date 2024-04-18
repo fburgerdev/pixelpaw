@@ -1,6 +1,6 @@
 #include "glfwkeylayout.hpp"
 
-namespace PixelPaw {
+namespace Wndw {
     // US-Layout
     KeyCode_GLFW toUSLayout(KeyCode_GLFW code) {
         return code;

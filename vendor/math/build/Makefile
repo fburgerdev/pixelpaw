@@ -21,11 +21,11 @@ ifeq ($(config),dist)
   example_config = dist
 endif
 
-PROJECTS := math example
+windowS := math example
 
-.PHONY: all clean help $(PROJECTS) 
+.PHONY: all clean help $(windowS) 
 
-all: $(PROJECTS)
+all: $(windowS)
 
 math:
 ifneq (,$(math_config))
