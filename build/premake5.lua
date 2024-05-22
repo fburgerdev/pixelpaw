@@ -17,12 +17,7 @@ workspace(PRJ_NAME)
    includedirs {
       ROOT,
       ROOT .. "/src",
-      ROOT .. "/vendor",
-      ROOT .. "/vendor/*",
-   }
-   -- files
-   files {
-      ROOT .. "/vendor/*/src/**",
+      ROOT .. "/vendor/*/include",
    }
    -- bin
    -- bin :: targetdir

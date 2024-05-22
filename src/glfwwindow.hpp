@@ -1,7 +1,7 @@
 #pragma once
 #include "event.hpp"
 #include "glfwkeylayout.hpp"
-#include "math/include/math.hpp"
+#include "math.hpp"
 #include <functional>
 
 namespace Wndw {

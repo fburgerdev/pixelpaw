@@ -16,7 +16,7 @@ ifeq ($(config),debug)
   TARGET = $(TARGETDIR)/libwindow.a
   OBJDIR = ../bin/obj/linux_debug
   DEFINES += -DCONFIG_DEBUG
-  INCLUDES += -I.. -I../src -I../vendor -I../vendor/math
+  INCLUDES += -I.. -I../src -I../vendor/math/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -g
@@ -43,7 +43,7 @@ ifeq ($(config),release)
   TARGET = $(TARGETDIR)/libwindow.a
   OBJDIR = ../bin/obj/linux_release
   DEFINES += -DCONFIG_RELEASE
-  INCLUDES += -I.. -I../src -I../vendor -I../vendor/math
+  INCLUDES += -I.. -I../src -I../vendor/math/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O2
@@ -70,7 +70,7 @@ ifeq ($(config),dist)
   TARGET = $(TARGETDIR)/libwindow.a
   OBJDIR = ../bin/obj/linux_dist
   DEFINES += -DCONFIG_DIST
-  INCLUDES += -I.. -I../src -I../vendor -I../vendor/math
+  INCLUDES += -I.. -I../src -I../vendor/math/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O2
@@ -94,8 +94,6 @@ endif
 OBJECTS := \
 	$(OBJDIR)/glfwkeylayout.o \
 	$(OBJDIR)/glfwwindow.o \
-	$(OBJDIR)/arithmetic.o \
-	$(OBJDIR)/precompile.o \
 
 RESOURCES := \
 
@@ -158,12 +156,6 @@ $(OBJDIR)/glfwkeylayout.o: ../src/glfwkeylayout.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/glfwwindow.o: ../src/glfwwindow.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/arithmetic.o: ../vendor/math/src/arithmetic.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/precompile.o: ../vendor/math/src/precompile.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 

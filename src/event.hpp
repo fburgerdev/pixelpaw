@@ -29,7 +29,7 @@ namespace Wndw {
         Press, Release, Repeat
     };
     // Key :: Code
-    #if defined(WINDOWAPI_GLFW)
+    #if defined(WINDOWAPI_GLFW) or true
     using KeyCode = KeyCode_GLFW;
     #endif
 }
