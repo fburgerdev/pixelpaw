@@ -5,7 +5,7 @@ workspace "wndw"
    -- build options
    configurations { "debug", "release", "dist" }
    -- startproject
-   startproject "wndw"
+   startproject "test"
    -- cpp
    language "C++"
    cppdialect "C++Latest"
@@ -44,3 +44,30 @@ project "wndw"
    -- binaries
    targetdir(ROOT .. "/lib/%{cfg.buildcfg}")
    objdir(ROOT .. "/bin/%{cfg.system}_%{cfg.buildcfg}")
+-- tests :: PROJECT_NAME
+project "test"
+   -- console
+   kind "ConsoleApp"
+   -- include directories
+   includedirs {
+      ROOT .. "/include",
+      ROOT .. "/src",
+      ROOT .. "/modules/*/include",
+      ROOT .. "/vendor/*/include"
+   }
+   -- library directories
+   libdirs {
+      ROOT .. "/lib/%{cfg.buildcfg}",
+      ROOT .. "/modules/*/lib/%{cfg.buildcfg}",
+      ROOT .. "/vendor/*/lib/%{cfg.buildcfg}"
+   }
+   -- files
+   files {
+      ROOT .. "/tests/test.cpp",
+		--[[ INSERT ADDITIONAL FILES HERE ]]
+   }
+   -- links
+   links { "wndw", "vecmath", "glfw3", "GLEW", --[[ INSERT ADDITIONAL LINKS HERE ]] }
+   -- binaries
+   targetdir(ROOT .. "/bin/tests/%{cfg.system}_%{cfg.buildcfg}")
+   objdir(ROOT .. "/bin/tests/%{cfg.system}_%{cfg.buildcfg}/obj")
