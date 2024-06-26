@@ -12,20 +12,20 @@ endif
 
 ifeq ($(config),debug)
   RESCOMP = windres
-  TARGETDIR = ../bin/tests/linux_debug
-  TARGET = $(TARGETDIR)/test
-  OBJDIR = ../bin/tests/linux_debug/obj
+  TARGETDIR = ../lib/debug
+  TARGET = $(TARGETDIR)/libwndw.a
+  OBJDIR = ../bin/linux_debug
   DEFINES += -DCONFIG_DEBUG
-  INCLUDES += -I../include -I../src -I../modules/glew-lib/include -I../modules/glfw3-lib/include -I../modules/vecmath/include
+  INCLUDES += -I.. -I../src -I../modules/glew-lib/include -I../modules/glfw3-lib/include -I../modules/vecmath/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -g
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -g -std=c++20
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += ../lib/debug/libwndw.a -lvecmath -lglfw3 -lGLEW
-  LDDEPS += ../lib/debug/libwndw.a
-  ALL_LDFLAGS += $(LDFLAGS) -L../lib/debug -L../modules/glew-lib/lib/debug -L../modules/glfw3-lib/lib/debug -L../modules/vecmath/lib/debug
-  LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
+  LIBS +=
+  LDDEPS +=
+  ALL_LDFLAGS += $(LDFLAGS)
+  LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
@@ -39,20 +39,20 @@ endif
 
 ifeq ($(config),release)
   RESCOMP = windres
-  TARGETDIR = ../bin/tests/linux_release
-  TARGET = $(TARGETDIR)/test
-  OBJDIR = ../bin/tests/linux_release/obj
+  TARGETDIR = ../lib/release
+  TARGET = $(TARGETDIR)/libwndw.a
+  OBJDIR = ../bin/linux_release
   DEFINES += -DCONFIG_RELEASE
-  INCLUDES += -I../include -I../src -I../modules/glew-lib/include -I../modules/glfw3-lib/include -I../modules/vecmath/include
+  INCLUDES += -I.. -I../src -I../modules/glew-lib/include -I../modules/glfw3-lib/include -I../modules/vecmath/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O2
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -O2 -std=c++20
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += ../lib/release/libwndw.a -lvecmath -lglfw3 -lGLEW
-  LDDEPS += ../lib/release/libwndw.a
-  ALL_LDFLAGS += $(LDFLAGS) -L../lib/release -L../modules/glew-lib/lib/release -L../modules/glfw3-lib/lib/release -L../modules/vecmath/lib/release -s -Ofast
-  LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
+  LIBS +=
+  LDDEPS +=
+  ALL_LDFLAGS += $(LDFLAGS) -s -Ofast
+  LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
@@ -66,20 +66,20 @@ endif
 
 ifeq ($(config),dist)
   RESCOMP = windres
-  TARGETDIR = ../bin/tests/linux_dist
-  TARGET = $(TARGETDIR)/test
-  OBJDIR = ../bin/tests/linux_dist/obj
+  TARGETDIR = ../lib/dist
+  TARGET = $(TARGETDIR)/libwndw.a
+  OBJDIR = ../bin/linux_dist
   DEFINES += -DCONFIG_DIST
-  INCLUDES += -I../include -I../src -I../modules/glew-lib/include -I../modules/glfw3-lib/include -I../modules/vecmath/include
+  INCLUDES += -I.. -I../src -I../modules/glew-lib/include -I../modules/glfw3-lib/include -I../modules/vecmath/include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O2
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -O2 -std=c++20
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += ../lib/dist/libwndw.a -lvecmath -lglfw3 -lGLEW
-  LDDEPS += ../lib/dist/libwndw.a
-  ALL_LDFLAGS += $(LDFLAGS) -L../lib/dist -L../modules/glew-lib/lib/dist -L../modules/glfw3-lib/lib/dist -L../modules/vecmath/lib/dist -s -Ofast
-  LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
+  LIBS +=
+  LDDEPS +=
+  ALL_LDFLAGS += $(LDFLAGS) -s -Ofast
+  LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
@@ -92,7 +92,8 @@ all: prebuild prelink $(TARGET)
 endif
 
 OBJECTS := \
-	$(OBJDIR)/test.o \
+	$(OBJDIR)/glfwkeylayout.o \
+	$(OBJDIR)/glfwwindow.o \
 
 RESOURCES := \
 
@@ -104,7 +105,7 @@ ifeq (.exe,$(findstring .exe,$(ComSpec)))
 endif
 
 $(TARGET): $(GCH) ${CUSTOMFILES} $(OBJECTS) $(LDDEPS) $(RESOURCES) | $(TARGETDIR)
-	@echo Linking test
+	@echo Linking wndw
 	$(SILENT) $(LINKCMD)
 	$(POSTBUILDCMDS)
 
@@ -127,7 +128,7 @@ else
 endif
 
 clean:
-	@echo Cleaning test
+	@echo Cleaning wndw
 ifeq (posix,$(SHELLTYPE))
 	$(SILENT) rm -f  $(TARGET)
 	$(SILENT) rm -rf $(OBJDIR)
@@ -151,7 +152,10 @@ else
 $(OBJECTS): | $(OBJDIR)
 endif
 
-$(OBJDIR)/test.o: ../tests/test.cpp
+$(OBJDIR)/glfwkeylayout.o: ../src/glfwkeylayout.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/glfwwindow.o: ../src/glfwwindow.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 

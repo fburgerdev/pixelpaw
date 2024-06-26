@@ -1,0 +1,26 @@
+{
+    "project": "wndw",
+    "author": "Florian Burger (git@fburgerdev)",
+    "namespace": "Wndw",
+    
+    "libraries": [
+        {
+            "name": "vecmath",
+            "source": "https://github.com/fburgerdev/vecmath"
+        },
+        {
+            "name": "glfw3",
+            "source": "https://github.com/fburgerdev/glfw3-lib"
+        },
+        {
+            "name": "GLEW",
+            "source": "https://github.com/fburgerdev/glew-lib"
+        }
+    ],
+
+    "tests": {
+        "test": {
+            "files": [ "test.cpp" ]
+        }
+    }
+}

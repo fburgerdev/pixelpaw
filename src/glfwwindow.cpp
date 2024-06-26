@@ -1,7 +1,7 @@
 #if defined(WINDOWAPI_GLFW) or true
 #include "glfwwindow.hpp"
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include "GLEW/glew.h"
+#include "glfw3/glfw3.h"
 #include <mutex>
 
 namespace Wndw {
@@ -30,6 +30,11 @@ namespace Wndw {
         std::scoped_lock creationlock(s_WindowCreation);
         // Init GLFW
         if (!glfwInit()) {
+            const char* description;
+            int code = glfwGetError(&description);
+            if (description) {
+                cout << description << endl;
+            }
             return;
         }
         // Context

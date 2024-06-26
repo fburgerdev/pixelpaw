@@ -9,39 +9,29 @@ ifndef verbose
 endif
 
 ifeq ($(config),debug)
-  window_config = debug
-  test_config = debug
+  wndw_config = debug
 endif
 ifeq ($(config),release)
-  window_config = release
-  test_config = release
+  wndw_config = release
 endif
 ifeq ($(config),dist)
-  window_config = dist
-  test_config = dist
+  wndw_config = dist
 endif
 
-PROJECTS := window test
+PROJECTS := wndw
 
 .PHONY: all clean help $(PROJECTS) 
 
 all: $(PROJECTS)
 
-window:
-ifneq (,$(window_config))
-	@echo "==== Building window ($(window_config)) ===="
-	@${MAKE} --no-print-directory -C . -f window.make config=$(window_config)
-endif
-
-test: window
-ifneq (,$(test_config))
-	@echo "==== Building test ($(test_config)) ===="
-	@${MAKE} --no-print-directory -C . -f test.make config=$(test_config)
+wndw:
+ifneq (,$(wndw_config))
+	@echo "==== Building wndw ($(wndw_config)) ===="
+	@${MAKE} --no-print-directory -C . -f wndw.make config=$(wndw_config)
 endif
 
 clean:
-	@${MAKE} --no-print-directory -C . -f window.make clean
-	@${MAKE} --no-print-directory -C . -f test.make clean
+	@${MAKE} --no-print-directory -C . -f wndw.make clean
 
 help:
 	@echo "Usage: make [config=name] [target]"
@@ -54,7 +44,6 @@ help:
 	@echo "TARGETS:"
 	@echo "   all (default)"
 	@echo "   clean"
-	@echo "   window"
-	@echo "   test"
+	@echo "   wndw"
 	@echo ""
 	@echo "For more information, see https://github.com/premake/premake-core/wiki"

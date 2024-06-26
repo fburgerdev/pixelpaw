@@ -1,4 +1,4 @@
-#include "include/window.hpp"
+#include "wndw.hpp"
 #include <iostream>
 
 using namespace Wndw;
@@ -26,6 +26,7 @@ int main() {
     // Loop
     while (window.isOpen()) {
         // Events
+        window.swap();
         window.pollEvents();
     }
     return EXIT_SUCCESS;

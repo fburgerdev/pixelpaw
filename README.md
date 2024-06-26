@@ -1,43 +1,47 @@
-# Description
-C++ library for graphical windows
+# wndw
+>C++ library for ...
 
-## Features
-- Window Class, Utility Functions and Event Callbacks
-- Mouse, Keyboard and Window-State Events
+describe your project ...
 
-## Support
-- Linux (native)
-- Windows (not supported)
-
-# Usage
-## Installation
-At your desired location, type this command into the console.
-``` console
-git clone git@github.com:fburgerdev/window.git
-```
 ## Dependancies
-- OpenGL (Mostly Included)
-- GLFW
-- GLEW
+- _vecmath_, see https://github.com/fburgerdev/vecmath
 
-To resolve all dependancies, execute this command in the console
-``` console
-sudo apt-get install libglfw3-dev libglew-dev
+## Usage
+### Use Case 1
+```cpp
+    #include<iostream>
+
+    int main() {
+        std::cout << "Hello World!" << std::endl;
+        return EXIT_SUCCESS;
+    }
 ```
 
-## Project Settings
-- Add include directory: "PATH_TO_REPO/include" 
-- Add library directory: "PATH_TO_REPO/lib/CONFIG/" 
-- Link libraries: "window", "glfw", "GLEW", "GLU, "GL"
+## Include this Library
+In your c++ project
+- add _include/wndw_ to your include directories
+- add _lib/[config]_ to your library directories (depending on your configuration)
+- link the library _libwndw.a_ (for linux) and _wndw.lib_ (for windows)
 
-## Build Yourself (Optional)
-In the _build_ folder, execute the following command in the console
+In order to resolve the dependancies
+- for _vecmath_
+    - add _modules/vecmath/lib/[config]_ to your include directories
+    - link the library _libvecmath.a_ or _vecmath.lib_
+
+## Build (Optional)
+#### Using Linux (Debian)
+Locate the _build_ folder, then execute the following command in the console:
 ``` console
-make config=CONFIG
+make config=[config]
 ```
-If you have not installed _make_, execute this command in the console first
+If you have not installed _make_:
 ``` console
 sudo apt-get install make -y
 ```
+
+#### Using Windows
+Open the _build/wndw.sln_ solution with Visual Studio.
+
+After selecting your desired configuration, click on _Build > Build Solution_.
 
 __Note:__ Make sure you have the _Desktop developement with C++_ workload installed.
