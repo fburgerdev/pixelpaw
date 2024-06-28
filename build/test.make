@@ -22,7 +22,7 @@ ifeq ($(config),debug)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -g
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -g -std=c++20
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += ../lib/debug/libwndw.a -lvecmath -lglfw3 -lGLEW
+  LIBS += ../lib/debug/libwndw.a -lvecmath -lglfw3 -lGLEW -lGL
   LDDEPS += ../lib/debug/libwndw.a
   ALL_LDFLAGS += $(LDFLAGS) -L../lib/debug -L../modules/glew-lib/lib/debug -L../modules/glfw3-lib/lib/debug -L../modules/vecmath/lib/debug
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
@@ -49,7 +49,7 @@ ifeq ($(config),release)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O2
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -O2 -std=c++20
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += ../lib/release/libwndw.a -lvecmath -lglfw3 -lGLEW
+  LIBS += ../lib/release/libwndw.a -lvecmath -lglfw3 -lGLEW -lGL
   LDDEPS += ../lib/release/libwndw.a
   ALL_LDFLAGS += $(LDFLAGS) -L../lib/release -L../modules/glew-lib/lib/release -L../modules/glfw3-lib/lib/release -L../modules/vecmath/lib/release -s -Ofast
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
@@ -76,7 +76,7 @@ ifeq ($(config),dist)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O2
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -O2 -std=c++20
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += ../lib/dist/libwndw.a -lvecmath -lglfw3 -lGLEW
+  LIBS += ../lib/dist/libwndw.a -lvecmath -lglfw3 -lGLEW -lGL
   LDDEPS += ../lib/dist/libwndw.a
   ALL_LDFLAGS += $(LDFLAGS) -L../lib/dist -L../modules/glew-lib/lib/dist -L../modules/glfw3-lib/lib/dist -L../modules/vecmath/lib/dist -s -Ofast
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)

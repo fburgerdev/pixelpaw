@@ -67,7 +67,7 @@ project "test"
 		--[[ INSERT ADDITIONAL FILES HERE ]]
    }
    -- links
-   links { "wndw", "vecmath", "glfw3", "GLEW", --[[ INSERT ADDITIONAL LINKS HERE ]] }
+   links { "wndw", "vecmath", "glfw3", "GLEW", "GL", --[[ INSERT ADDITIONAL LINKS HERE ]] }
    -- binaries
    targetdir(ROOT .. "/bin/tests/%{cfg.system}_%{cfg.buildcfg}")
    objdir(ROOT .. "/bin/tests/%{cfg.system}_%{cfg.buildcfg}/obj")

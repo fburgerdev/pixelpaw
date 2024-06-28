@@ -15,6 +15,9 @@
         {
             "name": "GLEW",
             "source": "https://github.com/fburgerdev/glew-lib"
+        },
+        {
+            "name": "GL"
         }
     ],
 
